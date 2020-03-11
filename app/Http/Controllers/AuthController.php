@@ -12,6 +12,7 @@ class AuthController extends Controller
     {
     	// $this->middleware('auth:api',['except' => ['login']]);
     }
+    
     public function login()
     {
     	$credentials = request(['email','password']);
@@ -27,15 +28,18 @@ class AuthController extends Controller
     {
     	return response()->json(auth()->user());
     }
+
     public function logout()
     {
     	auth()->logout();
     	return response()->json(['message' => 'Successfully logged out']);
     }
+
     public function refresh()
     {
     	return $this->respondWithToken(auth()->refresh());
     }
+
     public function respondWithToken($token)
     {
     	return response()->json([
@@ -44,9 +48,11 @@ class AuthController extends Controller
     		'expies_in' => auth()->factory()->getTTL()*60
     	]);
     }
+
     public function payload()
     {
         return auth()->payload();
+
     }
     public function test()
     {

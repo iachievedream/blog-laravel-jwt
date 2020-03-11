@@ -30,6 +30,9 @@ Route::group([
 });
 
 Route::post('/','ArticleController@index');
-Route::middleware('auth:api')->group(function(){
+Route::middleware(/*'auth:api'*/)->group(function(){
 	Route::post('/store','ArticleController@store');
+	Route::post('/show','ArticleController@show');
+	Route::post('/update','ArticleController@update');
+	Route::post('/destroy','ArticleController@destroy');
 });
