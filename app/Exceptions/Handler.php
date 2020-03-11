@@ -50,9 +50,27 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
+        dd($exception);//抓錯誤訊息的關鍵，preview查錯誤代碼
+
+        // dd($request->expectsJson());//preview
+        // if ($request->expectsJson()){
+        //     return response()->json('have a error');
+        // }
+
         if($exception instanceOf TokenInvalidException){
             return response()->json('token is Invalid');
+            // return response()->json(['error'  => 'Token is Invalid'],400);
+        }         else if ($exception instanceOf TokenBlacklistedException){
+            return response()->json('Token Blacklisted');
         }
+        
+        //TokenBlacklistedException有效期限token尚未確認error
+        //Tymon\JWTAuth\Exceptions\TokenBlacklistedException已經有錯誤訊息。
+
+        //Tymon\JWTAuth\Exceptions\TokenInvalidException
+        //"exception": "Tymon\\JWTAuth\\Exceptions\\JWTException",
+        //後續要再嘗試關掉這個套件
+
         return parent::render($request, $exception);
     }
 }
