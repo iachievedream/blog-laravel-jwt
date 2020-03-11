@@ -50,6 +50,9 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
+        if($exception instanceOf TokenInvalidException){
+            return response()->json('token is Invalid');
+        }
         return parent::render($request, $exception);
     }
 }
