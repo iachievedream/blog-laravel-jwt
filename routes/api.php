@@ -18,21 +18,31 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-Route::post('register','AuthController@register');
-Route::post('login','AuthController@login');
+Route::post('/register', 'AuthController@register');
 
-Route::group([
-	'middleware' => ['checktoken','auth.jwt']] ,function() {
-	Route::post('logout','AuthController@logout');
-	Route::post('refresh','AuthController@refresh');
-	Route::post('me','AuthController@me');
-	Route::post('payload','AuthController@payload');
+Route::post('/login', 'AuthController@login');
+
+Route::post('/', 'ArticleController@index');
+
+Route::post('/show/{id}', 'ArticleController@show');
+
+Route::group(['middleware' => ['checktoken', 'auth.jwt']], function() {
+
+	Route::post('/logout', 'AuthController@logout');
+
+	Route::post('/refresh', 'AuthController@refresh');
+
+	Route::post('/me', 'AuthController@me');
+
+	Route::post('/payload', 'AuthController@payload');
+
+	Route::group(['middleware' => 'ChangeArticle'] ,function() {
+
+		Route::post('/store', 'ArticleController@store');
+
+		Route::post('/update', 'ArticleController@update');
+
+		Route::post('/destroy', 'ArticleController@destroy');
+	});
+
 });
-
-// Route::post('/','ArticleController@index');
-// Route::middleware(/*'auth:api'*/)->group(function(){
-// 	Route::post('/store','ArticleController@store');
-// 	Route::post('/show','ArticleController@show');
-// 	Route::post('/update','ArticleController@update');
-// 	Route::post('/destroy','ArticleController@destroy');
-// });
