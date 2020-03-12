@@ -24,9 +24,15 @@ class AuthController extends Controller
             'password' => Hash::make($request->get('password')),
             'role' =>'user',
         ]);
-      $token = auth()->login($user);//得到token的方法
+      $token = auth()->login($user);//得到token的方法,$user會員資訊內容
 
-      return $this->respondWithToken($token);
+        return response()->json([
+            'success' => true,
+            'message' => '註冊成功',
+            'data' => $token,
+        ]);
+
+      // return $this->respondWithToken($token);
     }
 
     public function login(Request $request)

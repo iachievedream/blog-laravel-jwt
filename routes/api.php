@@ -26,7 +26,8 @@ Route::post('/', 'ArticleController@index');
 
 Route::post('/show/{id}', 'ArticleController@show');
 
-Route::group(['middleware' => ['checktoken', 'auth.jwt']], function() {
+// Route::group(['middleware' => ['checktoken', 'auth.jwt']], function() {
+Route::group(['middleware' => 'checktoken'], function() {
 
 	Route::post('/logout', 'AuthController@logout');
 
@@ -36,13 +37,13 @@ Route::group(['middleware' => ['checktoken', 'auth.jwt']], function() {
 
 	Route::post('/payload', 'AuthController@payload');
 
+	Route::post('/store', 'ArticleController@store');
+
 	Route::group(['middleware' => 'ChangeArticle'] ,function() {
 
-		Route::post('/store', 'ArticleController@store');
+		Route::post('/update/{id}', 'ArticleController@update');
 
-		Route::post('/update', 'ArticleController@update');
-
-		Route::post('/destroy', 'ArticleController@destroy');
+		Route::post('/destroy/{id}', 'ArticleController@destroy');
 	});
 
 });
