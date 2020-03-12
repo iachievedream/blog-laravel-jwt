@@ -3,7 +3,6 @@
 namespace App\Http\Middleware;
 
 use Closure;
-
 use JWTAuth;
 use Exception;
 use Tymon\JWTAuth\Http\Middleware\BaseMiddleware;
@@ -31,13 +30,13 @@ class CheckToken
                 // dd($e);//異常TokenBlacklistedException  
                 return response()->json(['status' => 'Token is Invalid']);
             //令牌過期異常
-            }else if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException){
+            } else if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException){
                 // dd($e);
                 return response()->json(['status' => 'Token is Expired']);
             //令牌黑名單異常(測試跑去TokenInvalidException)
-            }else if ($e instanceof Tymon\JWTAuth\Exceptions\TokenBlacklistedException ){
+            } else if ($e instanceof Tymon\JWTAuth\Exceptions\TokenBlacklistedException ){
                 return response()->json(['status' => 'Token is Token Blacklisted Exception ']);
-            }else{//其他如找不到授權令牌
+            } else {//其他如找不到授權令牌
                 // dd($e);
                 return response()->json(['status' => 'Authorization Token not found']);
             }

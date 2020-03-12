@@ -26,13 +26,11 @@ class ArticleService
 			'title' => 'required|max:25',
             'content' => 'required|max:255',
 		]);
-		// dd($article->fails());
-
-		if ($article->fails())
-		{
+		if ($article->fails()) {
 			return false;
+		} else {
+			return $this->articleRepository->getStore($data);
 		}
-		return $this->articleRepository->getStore($data);
 	}
 
 	public function showService($id)
@@ -40,18 +38,19 @@ class ArticleService
 		return $this->articleRepository->getShow($id);
 	}
 
-	public function updateService(array $data,$id)
+	public function updateService(array $data, $id)
 	{
 		$article = Validator::make($data, [
 			'title' => 'required|max:25',
             'content' => 'required|max:255',
 		]);
-		if ($article->fails())
-		{
+		if ($article->fails()) {
 			return false;
+		} else {
+			return $this->articleRepository->getUpdate($data, $id);
 		}
-		return $this->articleRepository->getUpdate($data,$id);
 	}
+
 	public function deleteService($id)
 	{
 		return $this->articleRepository->getDestroy($id);
