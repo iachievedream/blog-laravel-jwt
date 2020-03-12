@@ -57,13 +57,24 @@ class ArticleController extends Controller
 
     public function update(Request $request,$id)
     {
-    	
-        return redirect('/');
+        $article = Article::find($id)->update([
+            'title' => $request->title,
+            'content' => $request->content,
+        ]);
+        return response()->json([
+            'success' => true,
+            'message' => '更新文章成功',
+            'data' => '',
+        ]);
     }
 
     public function destroy($id)
     {
-        $this->articleService->deleteService($id);
-        return redirect('/');
+        $article =  Article::find($id)->delete();
+        return response()->json([
+            'success' => true,
+            'message' => '刪除文章成功',
+            'data' => '',
+        ]);
     }
 }

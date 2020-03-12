@@ -40,9 +40,9 @@ Route::group(['middleware' => ['checktoken', 'auth.jwt']], function() {
 
 		Route::post('/store', 'ArticleController@store');
 
-		Route::post('/update', 'ArticleController@update');
+		Route::post('/update/{id}', 'ArticleController@update');
 
-		Route::post('/destroy', 'ArticleController@destroy');
+		Route::post('/destroy/{id}', 'ArticleController@destroy');
 	});
 
 });
