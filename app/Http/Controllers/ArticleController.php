@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Services\ArticleService;
 // use JWTAuth;
+use Illuminate\Support\Facades\Validator;
 
 class ArticleController extends Controller
 {
@@ -31,19 +32,31 @@ class ArticleController extends Controller
 
     public function store(Request $request)
     {
-        $article = $this->articleService->storeService($request->all());
-        if ($article == false) {
+        $article = Validator::make($request->all(), [
+            'title' => 'required|max:25',
+            'content' => 'required|max:255',
+        ]);
+        if ($article->fails()) {
             return response()->json([
                 'success' => false,
-                'message' => '新增文章失敗',
+                'message' => '新增文章不合格式',
                 'data' => '',
             ]);
         } else {
-            return response()->json([
-                'success' => true,
-                'message' => '新增文章成功',
-                'data' => $article,
-            ]);
+            $article = $this->articleService->storeService($request->all());
+            if ($article == false) {
+                return response()->json([
+                    'success' => false,
+                    'message' => '新增文章失敗',
+                    'data' => '',
+                ]);
+            } else {
+                return response()->json([
+                    'success' => true,
+                    'message' => '新增文章成功',
+                    'data' => $article,
+                ]);
+            }
         }
     }
 
@@ -67,20 +80,32 @@ class ArticleController extends Controller
 
     public function update(Request $request,$id)
     {
-        $article = $this->articleService->updateService($request->all(), $id);
-        if ($article == false) {
+        $article = Validator::make($request->all(), [
+            'title' => 'required|max:25',
+            'content' => 'required|max:255',
+        ]);
+        if ($article->fails()) {
             return response()->json([
                 'success' => false,
-                'message' => '更新文章失敗',
+                'message' => '更新文章不合格式',
                 'data' => '',
             ]);
         } else {
-            return response()->json([
-                'success' => true,
-                'message' => '更新文章成功',
-                'data' => $request->all(),
-            ]);
-        }
+            $article = $this->articleService->updateService($request->all(), $id);
+            if ($article == false) {
+                return response()->json([
+                    'success' => false,
+                    'message' => '更新文章失敗',
+                    'data' => '',
+                ]);
+            } else {
+                return response()->json([
+                    'success' => true,
+                    'message' => '更新文章成功',
+                    'data' => $request->all(),
+                ]);
+            }
+        }        
     }
 
     public function destroy($id)

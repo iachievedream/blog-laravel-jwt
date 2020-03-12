@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Repositories\ArticleRepository;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
 class ArticleService
@@ -22,15 +21,7 @@ class ArticleService
 
 	public function storeService(array $data)
 	{
-		$article = Validator::make($data, [
-			'title' => 'required|max:25',
-            'content' => 'required|max:255',
-		]);
-		if ($article->fails()) {
-			return false;
-		} else {
-			return $this->articleRepository->getStore($data);
-		}
+		return $this->articleRepository->getStore($data);
 	}
 
 	public function showService($id)
@@ -40,15 +31,8 @@ class ArticleService
 
 	public function updateService(array $data, $id)
 	{
-		$article = Validator::make($data, [
-			'title' => 'required|max:25',
-            'content' => 'required|max:255',
-		]);
-		if ($article->fails()) {
-			return false;
-		} else {
-			return $this->articleRepository->getUpdate($data, $id);
-		}
+		return $this->articleRepository->getUpdate($data, $id);
+
 	}
 
 	public function deleteService($id)
