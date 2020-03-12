@@ -13,17 +13,18 @@ use JWTAuth;
 
 class ArticleController extends Controller
 {
-    // protected $articleService;
+    protected $articleService;
 
-    // public function __construct(ArticleService $articleService)
-    // {
-    //     // $this->articleService = $articleService;
-    // }
+    public function __construct(ArticleService $articleService)
+    {
+        $this->articleService = $articleService;
+    }
 
     public function index()
     {
-        $article = Article::all();
-        // $article = Article::select()->get(['title', 'content','author']);
+        $article = $this->articleService->indexService();
+        // $article = Article::all();
+        // // $article = Article::select()->get(['title', 'content','author']);
         return response()->json([
             'success' => true,
             'message' => '成功取得文章列表',
@@ -33,48 +34,96 @@ class ArticleController extends Controller
 
     public function store(Request $request)
     {
-        $article = Article::create([
-            'title' => $request->title,
-            'content' => $request->content,
-            'author' => auth::user()->name,
-        ]);
+        $message = $this->articleService->storeService($request->all());
+        // if ($message == false) {
+        //     return Redirect()->back();
+        // }
         return response()->json([
             'success' => true,
             'message' => '新增文章成功',
-            'data' => '',
+            'data' => $message,
         ]);
+
+        // $article = Article::create([
+        //     'title' => $request->title,
+        //     'content' => $request->content,
+        //     'author' => auth::user()->name,
+        // ]);
+        // return response()->json([
+        //     'success' => true,
+        //     'message' => '新增文章成功',
+        //     'data' => '',
+        // ]);
     }
 
     public function show($id)
     {
-        $article = Article::find($id)->only(['title', 'content','author']);
+        $article = $this->articleService->showservice($id);
+        // dd($article);
+
+        if ($article == false) {
+            return response()->json([
+                'success' => false,
+                'message' => '顯示文章失敗',
+                'data' => $article,
+            ]);
+        }
         return response()->json([
             'success' => true,
             'message' => '顯示文章成功',
             'data' => $article,
         ]);
+        // $article = Article::find($id)->only(['title', 'content','author']);
+        // return response()->json([
+        //     'success' => true,
+        //     'message' => '顯示文章成功',
+        //     'data' => $article,
+        // ]);
     }
 
     public function update(Request $request,$id)
     {
-        $article = Article::find($id)->update([
-            'title' => $request->title,
-            'content' => $request->content,
-        ]);
+
+        $article = $this->articleService->updateService($request->all(),$id);
+        if ($article == false) {
+            return response()->json([
+                'success' => false,
+                'message' => '更新文章失敗',
+                'data' => '',
+            ]);
+        }
         return response()->json([
             'success' => true,
             'message' => '更新文章成功',
-            'data' => '',
+            'data' => "",
         ]);
+
+
+        // $article = Article::find($id)->update([
+        //     'title' => $request->title,
+        //     'content' => $request->content,
+        // ]);
+        // return response()->json([
+        //     'success' => true,
+        //     'message' => '更新文章成功',
+        //     'data' => '',
+        // ]);
     }
 
     public function destroy($id)
     {
-        $article =  Article::find($id)->delete();
+        $this->articleService->deleteService($id);
         return response()->json([
             'success' => true,
             'message' => '刪除文章成功',
             'data' => '',
         ]);
+
+        // $article =  Article::find($id)->delete();
+        // return response()->json([
+        //     'success' => true,
+        //     'message' => '刪除文章成功',
+        //     'data' => '',
+        // ]);
     }
 }

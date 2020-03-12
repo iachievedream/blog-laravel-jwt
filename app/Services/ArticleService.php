@@ -26,6 +26,8 @@ class ArticleService
 			'title' => 'required|max:25',
             'content' => 'required|max:255',
 		]);
+		// dd($article->fails());
+
 		if ($article->fails())
 		{
 			return false;
