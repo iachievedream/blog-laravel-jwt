@@ -20,15 +20,27 @@ class ChangeArticle
         //網址回傳ID
         $id = $request->route('id');
         //文章作者
-        $article = Article::find($id);
-        $author = $article->author;
-        //登入使用者
-        $user = Auth::user()->name;
-        //管理員判斷
-        $role = Auth::user()->role;
-        if ($author == $user || $role == "admin") {
-            return $next($request);
+        if (Article::find($id) == false) {
+            return response()->json([
+                'success' => false,
+                'message' => '無此文章',
+                'data' => '',
+            ]);
+        } else {
+            $article = Article::find($id);
+            $author = $article->author;
+            //登入使用者
+            $user = Auth::user()->name;
+            //管理員判斷
+            $role = Auth::user()->role;
+            if ($author == $user || $role == "admin") {
+                return $next($request);
+            }
+            return response()->json([
+                'success' => false,
+                'message' => '無此權限',
+                'data' => '',
+            ]);
         }
-        return response()->json(['status' => 'you can not change article']);
     }
 }

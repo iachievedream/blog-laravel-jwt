@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Auth;
 use App\Services\ArticleService;
 // use JWTAuth;
 
-
 class ArticleController extends Controller
 {
     protected $articleService;
@@ -37,7 +36,7 @@ class ArticleController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => '新增文章失敗',
-                'data' => $article,
+                'data' => '',
             ]);
         } else {
             return response()->json([
@@ -54,8 +53,8 @@ class ArticleController extends Controller
         if ($article == false) {
             return response()->json([
                 'success' => false,
-                'message' => '顯示文章失敗',
-                'data' => $article,
+                'message' => '無此文章',
+                'data' => '',
             ]);
         } else {
             return response()->json([
@@ -79,18 +78,26 @@ class ArticleController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => '更新文章成功',
-                'data' => '',
+                'data' => $request->all(),
             ]);
         }
     }
 
     public function destroy($id)
     {
-        $this->articleService->deleteService($id);
-        return response()->json([
-            'success' => true,
-            'message' => '刪除文章成功',
-            'data' => '',
-        ]);
+        $article = $this->articleService->deleteService($id);
+        if ($article == false) {
+            return response()->json([
+                'success' => false,
+                'message' => '刪除文章失敗',
+                'data' => '',
+            ]);
+        } else {
+            return response()->json([
+                'success' => true,
+                'message' => '刪除文章成功',
+                'data' => '',
+            ]);
+        }
     }
 }

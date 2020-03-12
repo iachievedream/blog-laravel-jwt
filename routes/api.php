@@ -26,16 +26,13 @@ Route::post('/', 'ArticleController@index');
 
 Route::post('/show/{id}', 'ArticleController@show');
 
-// Route::group(['middleware' => ['checktoken', 'auth.jwt']], function() {
 Route::group(['middleware' => 'checktoken'], function() {
 
 	Route::post('/logout', 'AuthController@logout');
 
 	Route::post('/refresh', 'AuthController@refresh');
 
-	Route::post('/me', 'AuthController@me');
-
-	Route::post('/payload', 'AuthController@payload');
+	// Route::post('/me', 'AuthController@me');
 
 	Route::post('/store', 'ArticleController@store');
 
