@@ -29,6 +29,6 @@ class ChangeArticle
         if ($author == $user || $role == "admin") {
             return $next($request);
         }
-        return response()->json(['status' => 'you are not change article.']);
+        return response()->json(['status' => 'you can not change article']);
     }
 }
