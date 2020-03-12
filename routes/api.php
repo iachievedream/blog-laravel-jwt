@@ -18,21 +18,21 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
+Route::post('register','AuthController@register');
+Route::post('login','AuthController@login');
+
 Route::group([
-	// 'middleware' => 'api',
-	'prefix' => 'auth'
-],function($router) {
-	Route::post('login','AuthController@login');
+	'middleware' => ['checktoken','auth.jwt']] ,function() {
 	Route::post('logout','AuthController@logout');
 	Route::post('refresh','AuthController@refresh');
 	Route::post('me','AuthController@me');
 	Route::post('payload','AuthController@payload');
 });
 
-Route::post('/','ArticleController@index');
-Route::middleware(/*'auth:api'*/)->group(function(){
-	Route::post('/store','ArticleController@store');
-	Route::post('/show','ArticleController@show');
-	Route::post('/update','ArticleController@update');
-	Route::post('/destroy','ArticleController@destroy');
-});
+// Route::post('/','ArticleController@index');
+// Route::middleware(/*'auth:api'*/)->group(function(){
+// 	Route::post('/store','ArticleController@store');
+// 	Route::post('/show','ArticleController@show');
+// 	Route::post('/update','ArticleController@update');
+// 	Route::post('/destroy','ArticleController@destroy');
+// });
