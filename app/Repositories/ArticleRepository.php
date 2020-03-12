@@ -50,6 +50,11 @@ class ArticleRepository
 
 	public function getDestroy($id)
 	{
-		return Article::find($id)->delete();
+        if (Article::find($id) == false) {
+            return false;
+        } else {
+        	$article = Article::find($id)->delete();
+        	return $article;
+        }
 	}
 }
