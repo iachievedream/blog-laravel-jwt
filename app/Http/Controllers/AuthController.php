@@ -5,19 +5,35 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facede\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\User;
+use Illuminate\Support\Facades\Hash;
+// use JWTAuth;
+// use Tymon\JWTAuth\Exceptions\JWTException;
 
 class AuthController extends Controller
 {
-    public function __construct()
-    {
+    // public function __construct()
+    // {
+    // }
 
+    public function register(Request $request)
+    {
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->get('password')),
+            'role' =>'user',
+        ]);
+      $token = auth()->login($user);//得到token的方法
+
+      return $this->respondWithToken($token);
     }
-    
-    public function login()
-    {
-    	$credentials = request(['email','password']);
 
-    	if (! $token = auth('api')->attempt($credentials)) {
+    public function login(Request $request)
+    {
+    	$credentials = $request->only(['email','password']);
+        // dd($credentials);
+        if (! $token = auth()->attempt($credentials)) {//JWTAuth::attempt
          return response()->json(['error' => 'Unauthorized'],401);
         }
     	return $this->respondWithToken($token);
@@ -52,9 +68,5 @@ class AuthController extends Controller
     {
         return auth()->payload();
 
-    }
-    public function test()
-    {
-        
     }
 }

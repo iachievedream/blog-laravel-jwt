@@ -22,7 +22,7 @@ class CheckToken
         // $user = JWTAuth::parseToken()->authenticate()
         // dd($user);
         try {
-            $user = JWTAuth::parseToken()->authenticate();//或許令牌的方法
+            $user = JWTAuth::parseToken()->authenticate();//獲取令牌的方法
             // dd($user);
         } catch (Exception $e) {
             // dd($e);
