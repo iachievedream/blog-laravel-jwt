@@ -8,39 +8,51 @@ use App\Article;
 // use App\User;
 use Illuminate\Support\Facades\Auth;
 use App\Services\ArticleService;
+use JWTAuth;
+
 
 class ArticleController extends Controller
 {
-    protected $articleService;
+    // protected $articleService;
 
-    public function __construct(ArticleService $articleService)
-    {
-        $this->articleService = $articleService;
-    }
+    // public function __construct(ArticleService $articleService)
+    // {
+    //     // $this->articleService = $articleService;
+    // }
 
     public function index()
     {
-    	// $index = $this->articleService->indexService()->get(['title', 'content'])
-    	// return response()->json(auth()->index());
-    	return $this->ArticleService
-            ->storeService()
-            ->get(['title', 'content','author'])
-            ->toArray();
+        $article = Article::all();
+        // $article = Article::select()->get(['title', 'content','author']);
+        return response()->json([
+            'success' => true,
+            'message' => '成功取得文章列表',
+            'data' => $article,
+        ]);
     }
 
     public function store(Request $request)
     {
-
-        return Redirect('/');
+        $article = Article::create([
+            'title' => $request->title,
+            'content' => $request->content,
+            'author' => auth::user()->name,
+        ]);
+        return response()->json([
+            'success' => true,
+            'message' => '新增文章成功',
+            'data' => '',
+        ]);
     }
 
     public function show($id)
     {
-        // $article = $this->articleService->showservice($id);
-        // return ;
-
-        $task = $this->articleService->showService();
-
+        $article = Article::find($id)->only(['title', 'content','author']);
+        return response()->json([
+            'success' => true,
+            'message' => '顯示文章成功',
+            'data' => $article,
+        ]);
     }
 
     public function update(Request $request,$id)
@@ -54,14 +66,4 @@ class ArticleController extends Controller
         $this->articleService->deleteService($id);
         return redirect('/');
     }
-    
-    // public function test(Request $request)
-    // {
-    //     // return "Me is here";
-    //     $article = new Article();
-    //     $article->title = $request->'title';
-    //     $article->content = $request->'content';
-    //     $$article->save();
-
-    // }
 }
