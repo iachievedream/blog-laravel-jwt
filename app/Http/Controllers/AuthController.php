@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facede\Auth;
+// use Illuminate\Support\Facede\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\User;
@@ -13,26 +13,26 @@ class AuthController extends Controller
 {
     public function register(Request $request)
     {
-        $auth = Validator::make($request->all(), [
+        $credentials = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8',
         ]);
-        if ($auth->fails()) {
+        if ($credentials->fails()) {
             return response()->json([
                 'success' => false,
-                'message' => '註冊會員不合格式',
+                'message' => '註冊不合格式',
                 'data' => '',
             ]);
         } else {
-            $user = User::create([
+            $credentials = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->get('password')),
                 'role' =>'user',
             ]);
 
-            $token = auth()->login($user);//得到token的方法,$user會員資訊內容
+            $token = auth()->login($credentials);//得到token的方法,$user會員資訊內容
 
             return response()->json([
                 'success' => true,
@@ -44,15 +44,28 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-    	$credentials = $request->only(['email','password']);
-        if (! $token = auth()->attempt($credentials)) {
+        $credentials = Validator::make($request->all(),[
+            'email' => 'required|string',
+            'password' => 'required|string',
+        ]);
+        if ($credentials->fails()) {
             return response()->json([
                 'success' => false,
-                'message' => '未經授權',
+                'message' => '登入不合格式',
                 'data' => '',
             ]);
+        } else {
+            $credentials = $request->only(['email','password']);
+            if (! $token = auth()->attempt($credentials)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => '未經授權',
+                    'data' => '',
+                ]);
+            } else {
+                return $this->respondWithToken($token);
+            }
         }
-    	return $this->respondWithToken($token);
     }
 
     public function logout()
