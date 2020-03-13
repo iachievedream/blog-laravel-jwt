@@ -18,27 +18,34 @@ class CheckToken
      */
     public function handle($request, Closure $next)
     {
-        // $user = JWTAuth::parseToken()->authenticate()
-        // dd($user);
         try {
             $user = JWTAuth::parseToken()->authenticate();//獲取令牌的方法
-            // dd($user);
         } catch (Exception $e) {
+        // } catch (TokenInvalidException $e) {
             // dd($e);
             //令牌無效異常
-            if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException){
-                // dd($e);//異常TokenBlacklistedException  
-                return response()->json(['status' => 'Token is Invalid']);
+            if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException ){
+                // dd($e);  
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Token is Invalid',
+                    'data' => '',
+                ]);
             //令牌過期異常
             } else if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException){
                 // dd($e);
-                return response()->json(['status' => 'Token is Expired']);
-            //令牌黑名單異常(測試跑去TokenInvalidException)
-            } else if ($e instanceof Tymon\JWTAuth\Exceptions\TokenBlacklistedException ){
-                return response()->json(['status' => 'Token is Token Blacklisted Exception ']);
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Token is Expired',
+                    'data' => '',
+                ]);
             } else {//其他如找不到授權令牌
                 // dd($e);
-                return response()->json(['status' => 'Authorization Token not found']);
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Authorization Token not found',
+                    'data' => '',
+                ]);
             }
         }
         return $next($request);

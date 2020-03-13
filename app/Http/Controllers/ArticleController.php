@@ -4,11 +4,7 @@ namespace App\Http\Controllers;
 
 use App\http\Controllers\Controller;
 use Illuminate\Http\Request;
-// use App\Article;
-// use App\User;
-use Illuminate\Support\Facades\Auth;
 use App\Services\ArticleService;
-// use JWTAuth;
 use Illuminate\Support\Facades\Validator;
 
 class ArticleController extends Controller
@@ -23,11 +19,19 @@ class ArticleController extends Controller
     public function index()
     {
         $article = $this->articleService->indexService();
-        return response()->json([
-            'success' => true,
-            'message' => '成功取得文章列表',
-            'data' => $article,
-        ]);
+        if ($article == false) {
+            return response()->json([
+                'success' => false,
+                'message' => '取得文章列表失敗',
+                'data' => '',
+            ]);
+        } else {
+            return response()->json([
+                'success' => true,
+                'message' => '成功取得文章列表',
+                'data' => $article,
+            ]);
+        }
     }
 
     public function store(Request $request)
