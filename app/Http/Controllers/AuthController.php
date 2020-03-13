@@ -7,32 +7,50 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
     public function register(Request $request)
     {
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->get('password')),
-            'role' =>'user',
+        $auth = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8',
         ]);
+        if ($auth->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => '註冊會員不合格式',
+                'data' => '',
+            ]);
+        } else {
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->get('password')),
+                'role' =>'user',
+            ]);
 
-        $token = auth()->login($user);//得到token的方法,$user會員資訊內容
+            $token = auth()->login($user);//得到token的方法,$user會員資訊內容
 
-        return response()->json([
-            'success' => true,
-            'message' => '註冊成功',
-            'data' => $token,
-        ]);
+            return response()->json([
+                'success' => true,
+                'message' => '註冊成功',
+                'data' => $token,
+            ]);
+        }
     }
 
     public function login(Request $request)
     {
     	$credentials = $request->only(['email','password']);
         if (! $token = auth()->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'],401);//未認證
+            return response()->json([
+                'success' => false,
+                'message' => '未經授權',
+                'data' => '',
+            ]);
         }
     	return $this->respondWithToken($token);
     }
@@ -40,7 +58,11 @@ class AuthController extends Controller
     public function logout()
     {
     	auth()->logout();
-    	return response()->json(['message' => 'Successfully logged out']);
+        return response()->json([
+            'success' => true,
+            'message' => 'Successfully logged out',
+            'data' => '',
+        ]);
     }
 
     public function refresh()
