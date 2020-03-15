@@ -4,14 +4,12 @@ namespace App\Repositories;
 
 use Illuminate\Support\Facades\Auth;
 use App\Article;
-use Illuminate\Http\Request;
 
 class ArticleRepository
 {
 	public function getIndex()
 	{
         $article = Article::all();
-        // $article = Article::select()->get(['title', 'content','author']);
         return $article;
 	}
 	

@@ -18,7 +18,6 @@ class AuthRepository
         return $createUser;
 	}
 	
-
 	public function getLogins(array $data)
 	{
 		// $email = $data['email'];
@@ -32,5 +31,4 @@ class AuthRepository
 		$token = auth()->attempt($getLogin);
 		return $token;
 	}
-
 }
