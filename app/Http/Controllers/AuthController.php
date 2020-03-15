@@ -2,42 +2,40 @@
 
 namespace App\Http\Controllers;
 
-// use Illuminate\Support\Facede\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\User;
-use Illuminate\Support\Facades\Hash;
+// use App\User;
 use Illuminate\Support\Facades\Validator;
+use App\Services\AuthService;
 
 class AuthController extends Controller
 {
+    protected $authService;
+
+    public function __construct(AuthService $authService)
+    {
+        $this->authService = $authService;
+    }
+
     public function register(Request $request)
     {
-        $credentials = Validator::make($request->all(), [
+        $register = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8',
+            'password' => 'required|string|min:8|confirmed',
         ]);
-        if ($credentials->fails()) {
+        if ($register->fails()) {
             return response()->json([
                 'success' => false,
                 'message' => '註冊不合格式',
                 'data' => '',
             ]);
         } else {
-            $credentials = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => Hash::make($request->get('password')),
-                'role' =>'user',
-            ]);
-
-            $token = auth()->login($credentials);//得到token的方法,$user會員資訊內容
-
+            $this->authService->registers($request->all());
             return response()->json([
                 'success' => true,
                 'message' => '註冊成功',
-                'data' => $token,
+                'data' => '',
             ]);
         }
     }
@@ -55,8 +53,13 @@ class AuthController extends Controller
                 'data' => '',
             ]);
         } else {
-            $credentials = $request->only(['email','password']);
-            if (! $token = auth()->attempt($credentials)) {
+            $token = $this->authService->logins($request->all());
+
+            // $credentials = request(['email', 'password']);
+            // $credentials = $request->only(['email','password']);
+            // dd(gettype($credentials));
+
+            if (! $token) {
                 return response()->json([
                     'success' => false,
                     'message' => '未經授權',
@@ -78,10 +81,10 @@ class AuthController extends Controller
         ]);
     }
 
-    public function refresh()
-    {
-    	return $this->respondWithToken(auth()->refresh());
-    }
+    // public function refresh()
+    // {
+    // 	return $this->respondWithToken(auth()->refresh());
+    // }
 
     public function respondWithToken($token)
     {

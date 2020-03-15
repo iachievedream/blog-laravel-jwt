@@ -22,17 +22,15 @@ Route::post('/register', 'AuthController@register');
 
 Route::post('/login', 'AuthController@login');
 
-Route::post('/', 'ArticleController@index');
+Route::get('/', 'ArticleController@index');
 
-Route::post('/show/{id}', 'ArticleController@show');
+Route::get('/show/{id}', 'ArticleController@show');
 
 Route::group(['middleware' => 'checktoken'], function() {
 
 	Route::post('/logout', 'AuthController@logout');
 
 	Route::post('/refresh', 'AuthController@refresh');
-
-	// Route::post('/me', 'AuthController@me');
 
 	Route::post('/store', 'ArticleController@store');
 

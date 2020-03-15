@@ -2,7 +2,7 @@
 
 namespace App;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+// use Illuminate\Database\Eloquent\Model;(查用法)
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
@@ -26,16 +26,7 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
-    ];
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
+        'password',
     ];
 
     public function getJWTIdentifier()
