@@ -53,7 +53,6 @@ class AuthController extends Controller
             ]);
         } else {
             $token = $this->authService->logins($request->all());
-
             // $credentials = request(['email', 'password']);
             // $credentials = $request->only(['email','password']);
             // dd(gettype($credentials));
@@ -61,7 +60,7 @@ class AuthController extends Controller
             if (! $token) {
                 return response()->json([
                     'success' => false,
-                    'message' => '未經授權',
+                    'message' => '登入失敗',
                     'data' => '',
                 ]);
             } else {
@@ -75,7 +74,7 @@ class AuthController extends Controller
     	auth()->logout();
         return response()->json([
             'success' => true,
-            'message' => 'Successfully logged out',
+            'message' => '登出成功',
             'data' => '',
         ]);
     }

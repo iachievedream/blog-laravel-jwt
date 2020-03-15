@@ -19,31 +19,39 @@ class CheckToken
     public function handle($request, Closure $next)
     {
         try {
-            $user = JWTAuth::parseToken()->authenticate();//獲取令牌的方法
+            $user = JWTAuth::parseToken()->authenticate();//獲取Token方法
         } catch (Exception $e) {
-        // } catch (TokenInvalidException $e) {
+        // } catch (TokenBlacklistedException $e) {
             // dd($e);
-            //令牌無效異常
-            if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException ){
+            //Token列入黑名單(如登出等狀況)
+            if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenBlacklistedException  ){
                 // dd($e);  
                 return response()->json([
                     'success' => false,
-                    'message' => 'Token is Invalid',
+                    'message' => 'Token 列入黑名單',
                     'data' => '',
                 ]);
-            //令牌過期異常
+            //Token無效(定義有些廣泛，所以順序在前面會被解取錯誤訊息，而小錯誤就無法發現了)
+            } else if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException){
+                // dd($e);
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Token 無效',
+                    'data' => '',
+                ]);
+            //Token過期
             } else if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException){
                 // dd($e);
                 return response()->json([
                     'success' => false,
-                    'message' => 'Token is Expired',
+                    'message' => 'Token 過期',
                     'data' => '',
                 ]);
-            } else {//其他如找不到授權令牌
+            } else {//其他如找不到Token
                 // dd($e);
                 return response()->json([
                     'success' => false,
-                    'message' => 'Authorization Token not found',
+                    'message' => 'Token 未輸入',
                     'data' => '',
                 ]);
             }
