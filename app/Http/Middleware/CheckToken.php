@@ -5,8 +5,9 @@ namespace App\Http\Middleware;
 use Closure;
 use JWTAuth;
 use Exception;
+use Tymon\JWTAuth\Http\Middleware\BaseMiddleware;
 
-class CheckToken
+class CheckToken extends BaseMiddleware
 {
     /**
      * Handle an incoming request.
@@ -24,10 +25,16 @@ class CheckToken
             // dd($e);
             if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException){
                 // dd($e);
+
+                //待了解
+                // $token = $this->auth->refresh;
+                $token = JWTAuth::getToken();
+                $token = JWTAuth::refresh($token);
+
                 return response()->json([
                     'success' => false,
                     'message' => 'Token 過期',
-                    'data' => '',
+                    'data' => $token,
                 ]);
             } else if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenBlacklistedException  ){
                 // dd($e);

@@ -15,12 +15,12 @@ class AuthService
 
 	public function registers(array $data)
 	{
-		return $this->authRepository->getRegisters($data);
+		return $this->authRepository->getRegister($data);
 	}
 
 	public function logins(array $data)
 	{
-		return $this->authRepository->getLogins($data);
+		return $this->authRepository->getLogin($data);
 	}
 
 }

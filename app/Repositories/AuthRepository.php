@@ -7,27 +7,27 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthRepository
 {
-	public function getRegisters(array $data)
+	public function getRegister(array $data)
 	{
-		$createUser = User::create([
+		$register = User::create([
 			'name' => $data['name'],
 			'email' => $data['email'],
 			'password' => Hash::make($data['password']),
         ]);
-        return $createUser;
+        return $register;
 	}
 	
-	public function getLogins(array $data)
+	public function getLogin(array $data)
 	{
 		// $email = $data['email'];
 		// $password = $data['password'];
 		// $getLogins = array('email'=>$email,'password'=>$password);
 
-		$getLogin = array(
+		$login = array(
 			'email'=>$data['email'],
 			'password'=>$data['password']
 		);
-		$token = auth()->attempt($getLogin);
+		$token = auth()->attempt($login);
 		return $token;
 	}
 }

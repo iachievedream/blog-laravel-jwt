@@ -19,8 +19,7 @@ class ArticleController extends Controller
     public function index()
     {
         $article = $this->articleService->indexs();
-        // if ($article == false) {
-        if ($article->all() == false) {
+        if (empty($article->all())) {//true之外都顯示為true
             return response()->json([
                 'success' => false,
                 'message' => '未有文章',
@@ -49,8 +48,7 @@ class ArticleController extends Controller
             ]);
         } else {
             $article = $this->articleService->stores($request->all());
-            if ($article->all() == false) {
-            // if ($article == false) {
+            if (empty($article)) {
                 return response()->json([
                     'success' => false,
                     'message' => '新增文章失敗',
@@ -69,7 +67,10 @@ class ArticleController extends Controller
     public function show($id)
     {
         $article = $this->articleService->shows($id);
-        if ($article == false) {
+            // if (is_null($article)) {
+            // dd($article);
+            // dd(gettype($article));
+        if (empty($article)) {//true之外都為顯示為true
             return response()->json([
                 'success' => false,
                 'message' => '無此文章',
@@ -98,7 +99,7 @@ class ArticleController extends Controller
             ]);
         } else {
             $article = $this->articleService->updates($request->all(), $id);
-            if ($article == false) {
+            if (empty($article)) {//true之外都顯示為true
                 return response()->json([
                     'success' => false,
                     'message' => '更新文章失敗',
@@ -116,8 +117,8 @@ class ArticleController extends Controller
 
     public function destroy($id)
     {
-        $article = $this->articleService->deletes($id);
-        if ($article == false) {
+        $article = $this->articleService->destroys($id);
+        if (empty($article)) {//true之外都顯示為true
             return response()->json([
                 'success' => false,
                 'message' => '刪除文章失敗',

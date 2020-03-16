@@ -16,29 +16,37 @@ class ArticleService
 
 	public function indexs()
 	{
-		return $this->articleRepository->getIndex();
+		$index = $this->articleRepository->getIndex();
+		return $index;
 	}
 
 	public function stores(array $data)
 	{
-		return $this->articleRepository->getStore($data);
+		$store = $this->articleRepository->getStore($data);
+		return $store;
 	}
 
 	public function shows($id)
 	{
-		// $article = $this->articleRepository->getShow($id);
-		// $articles = $article->only(['title', 'content','author']);
-		// return $articles;
-		return $this->articleRepository->getShow($id);
+		$show = $this->articleRepository->getShow($id);
+        if (empty($show)) {//true之外都為顯示為true
+            return $show;
+        } else {
+			$show = $show->only(['title', 'content','author']);
+			return $show;
+			// return $this->articleRepository->getShow($id);
+        }
 	}
 
 	public function updates(array $data, $id)
 	{
-		return $this->articleRepository->getUpdate($data, $id);
+		$update = $this->articleRepository->getUpdate($data, $id);
+		return $update;
 	}
 
-	public function deletes($id)
+	public function destroys($id)
 	{
-		return $this->articleRepository->getDestroy($id);
+		$destroy = $this->articleRepository->getDestroy($id);
+		return $destroy;
 	}
 }

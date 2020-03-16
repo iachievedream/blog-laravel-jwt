@@ -9,57 +9,50 @@ class ArticleRepository
 {
 	public function getIndex()
 	{
-		$article = Article::all();
-        if ($article->all() == false) {
-            return false;
-        } else {
-	        return $article;
-        }
-        // $article = Article::all();
-        // return $article;
+		// $article = Article::all();
+		// if (is_null($article)){
+        //     return false;
+        // } else {
+	    //     return $article;
+        // }
+        $index = Article::all();
+        return $index;
 	}
 	
 	public function getStore(array $data)
 	{
-        $article = Article::create([
+        $store = Article::create([
             'title' => $data['title'],
             'content' => $data['content'],
             'author' => auth::user()->name,
         ]);
-        return $article;
+        return $store;
 	}
 
 	public function getShow($id)
 	{
-        if (Article::find($id) == false) {
-            return false;
-        } else {
-        	$article = Article::find($id)->only(['title', 'content','author']);
-        	// $article = Article::find($id);
-	        return $article;
-        }
+		$show = Article::find($id);
+		// if (is_null($article)){
+        //     return false;
+        // } else {
+        // 	$article = Article::find($id)->only(['title', 'content','author']);
+        // 	// $article = Article::find($id);
+	    return $show;
+        // }
 	}
 	
 	public function getUpdate(array $data,$id)
 	{
-        if (Article::find($id) == false) {
-            return false;
-        } else {		
-	        $article = Article::find($id)->update([
-	            'title' => $data['title'],
-	            'content' => $data['content'],
-	        ]);
-	        return $article;
-		}
+	    $update = Article::find($id)->update([
+	        'title' => $data['title'],
+	        'content' => $data['content'],
+	    ]);
+	    return $update;
 	}
 
 	public function getDestroy($id)
 	{
-        if (Article::find($id) == false) {
-            return false;
-        } else {
-        	$article = Article::find($id)->delete();
-        	return $article;
-        }
+        $destroy = Article::find($id)->delete();
+        return $destroy;
 	}
 }
