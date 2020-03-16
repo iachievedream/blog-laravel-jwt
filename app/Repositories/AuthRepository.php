@@ -2,7 +2,6 @@
 
 namespace App\Repositories;
 
-// use Illuminate\Support\Facades\Auth;
 use App\User;
 use Illuminate\Support\Facades\Hash;
 

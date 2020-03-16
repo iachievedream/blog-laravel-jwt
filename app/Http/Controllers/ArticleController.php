@@ -18,17 +18,18 @@ class ArticleController extends Controller
 
     public function index()
     {
-        $article = $this->articleService->indexService();
-        if ($article == false) {
+        $article = $this->articleService->indexs();
+        // if ($article == false) {
+        if ($article->all() == false) {
             return response()->json([
                 'success' => false,
-                'message' => '取得文章列表失敗',
+                'message' => '未有文章',
                 'data' => '',
             ]);
         } else {
             return response()->json([
                 'success' => true,
-                'message' => '成功取得文章列表',
+                'message' => '取得文章列表成功',
                 'data' => $article,
             ]);
         }
@@ -47,8 +48,9 @@ class ArticleController extends Controller
                 'data' => '',
             ]);
         } else {
-            $article = $this->articleService->storeService($request->all());
-            if ($article == false) {
+            $article = $this->articleService->stores($request->all());
+            if ($article->all() == false) {
+            // if ($article == false) {
                 return response()->json([
                     'success' => false,
                     'message' => '新增文章失敗',
@@ -66,7 +68,7 @@ class ArticleController extends Controller
 
     public function show($id)
     {
-        $article = $this->articleService->showservice($id);
+        $article = $this->articleService->shows($id);
         if ($article == false) {
             return response()->json([
                 'success' => false,
@@ -95,7 +97,7 @@ class ArticleController extends Controller
                 'data' => '',
             ]);
         } else {
-            $article = $this->articleService->updateService($request->all(), $id);
+            $article = $this->articleService->updates($request->all(), $id);
             if ($article == false) {
                 return response()->json([
                     'success' => false,
@@ -114,7 +116,7 @@ class ArticleController extends Controller
 
     public function destroy($id)
     {
-        $article = $this->articleService->deleteService($id);
+        $article = $this->articleService->deletes($id);
         if ($article == false) {
             return response()->json([
                 'success' => false,

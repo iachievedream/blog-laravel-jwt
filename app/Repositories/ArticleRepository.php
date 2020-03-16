@@ -9,8 +9,14 @@ class ArticleRepository
 {
 	public function getIndex()
 	{
-        $article = Article::all();
-        return $article;
+		$article = Article::all();
+        if ($article->all() == false) {
+            return false;
+        } else {
+	        return $article;
+        }
+        // $article = Article::all();
+        // return $article;
 	}
 	
 	public function getStore(array $data)
@@ -29,6 +35,7 @@ class ArticleRepository
             return false;
         } else {
         	$article = Article::find($id)->only(['title', 'content','author']);
+        	// $article = Article::find($id);
 	        return $article;
         }
 	}

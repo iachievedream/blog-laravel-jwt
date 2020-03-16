@@ -14,28 +14,30 @@ class ArticleService
 		$this->articleRepository = $articleRepository;
 	}
 
-	public function indexService()
+	public function indexs()
 	{
 		return $this->articleRepository->getIndex();
 	}
 
-	public function storeService(array $data)
+	public function stores(array $data)
 	{
 		return $this->articleRepository->getStore($data);
 	}
 
-	public function showService($id)
+	public function shows($id)
 	{
+		// $article = $this->articleRepository->getShow($id);
+		// $articles = $article->only(['title', 'content','author']);
+		// return $articles;
 		return $this->articleRepository->getShow($id);
 	}
 
-	public function updateService(array $data, $id)
+	public function updates(array $data, $id)
 	{
 		return $this->articleRepository->getUpdate($data, $id);
-
 	}
 
-	public function deleteService($id)
+	public function deletes($id)
 	{
 		return $this->articleRepository->getDestroy($id);
 	}
