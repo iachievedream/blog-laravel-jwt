@@ -5,9 +5,8 @@ namespace App\Http\Middleware;
 use Closure;
 use JWTAuth;
 use Exception;
-use Tymon\JWTAuth\Http\Middleware\BaseMiddleware;
 
-class CheckToken extends BaseMiddleware
+class CheckToken
 {
     /**
      * Handle an incoming request.
@@ -26,18 +25,22 @@ class CheckToken extends BaseMiddleware
             if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException){
                 // dd($e);
 
-                //待了解
-                // $token = $this->auth->refresh;
-                $token = JWTAuth::getToken();
-                $token = JWTAuth::refresh($token);
+                //待了解(JWTAuth不同的套件，所以產生無法捕捉的錯誤嗎?)
+                // $token = JWTAuth::getToken();//得到現有Token
+                // $token = JWTAuth::refresh($token);//更新現有Token
+
+                //官網資訊(測試好像不如預測的狀況)
+                // $newToken = auth()->refresh();//未將舊的列入黑名單
+                $newToken = auth()->refresh(true, true);//將舊的列入黑名單
+
 
                 return response()->json([
                     'success' => false,
-                    'message' => 'Token 過期',
-                    'data' => $token,
+                    'message' => 'Token 已過期，請更換新的Token',
+                    'data' => $newToken,
                 ]);
             } else if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenBlacklistedException  ){
-                // dd($e);
+                dd($e);
                 //黑名單如會員登出後的token狀況，以及refresh後的狀況。
                 return response()->json([
                     'success' => false,
