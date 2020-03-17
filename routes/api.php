@@ -22,13 +22,13 @@ Route::get('/', 'ArticleController@index');
 
 Route::get('/show/{id}', 'ArticleController@show');
 
-Route::group(['middleware' => 'checktoken'], function() {
+Route::group(['middleware' => 'check.token'], function() {
 
 	Route::post('/logout', 'AuthController@logout');
 
 	Route::post('/store', 'ArticleController@store');
 
-	Route::group(['middleware' => 'ChangeArticle'] ,function() {
+	Route::group(['middleware' => 'change.article'] ,function() {
 
 		Route::post('/update/{id}', 'ArticleController@update');
 

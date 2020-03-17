@@ -25,13 +25,13 @@ class ArticleRepository
 
 	public function getShow($id)
 	{
-		$show = Article::find($id);//判斷有無文章
+		$show = Article::find($id);//object or null
 	    return $show;
 	}
 	
 	public function getUpdate(array $data,$id)
 	{
-	    $update = Article::find($id)->update([//布林
+	    $update = Article::find($id)->update([//boolean
 	        'title' => $data['title'],
 	        'content' => $data['content'],
 	    ]);
@@ -40,7 +40,7 @@ class ArticleRepository
 
 	public function getDestroy($id)
 	{
-        $destroy = Article::find($id)->delete();
+        $destroy = Article::find($id)->delete();//boolean
         return $destroy;
 	}
 }

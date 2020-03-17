@@ -29,11 +29,9 @@ class ArticleService
 	public function shows($id)
 	{
 		$show = $this->articleRepository->getShow($id);
-        if (empty($show)) {//true之外都為顯示為true
-        	// dd($show);
+        if (empty($show)) {
             return false;
         } else {
-			// $show = $show->only(['title', 'content','author']);
 			return $show;
         }
 	}

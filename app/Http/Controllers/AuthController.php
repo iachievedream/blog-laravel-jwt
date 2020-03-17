@@ -16,21 +16,21 @@ class AuthController extends Controller
         $this->authService = $authService;
     }
 
-    public function register(Request $request)
+    public function register(Request $request)//object
     {
-        $register = Validator::make($request->all(), [
+        $register = Validator::make($request->all(), [//object
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
         ]);
-        if ($register->fails()) {
+        if ($register->fails()) {//boolean
             return response()->json([
                 'success' => false,
                 'message' => '註冊不合格式',
                 'data' => '',
             ]);
         } else {
-            $this->authService->registers($request->all());
+            $this->authService->registers($request->all());//object
             return response()->json([
                 'success' => true,
                 'message' => '註冊成功',
@@ -52,7 +52,7 @@ class AuthController extends Controller
                 'data' => '',
             ]);
         } else {
-            $token = $this->authService->logins($request->all());
+            $token = $this->authService->logins($request->all());//string/fulse
             if (! $token) {
                 return response()->json([
                     'success' => false,
@@ -78,14 +78,4 @@ class AuthController extends Controller
             'data' => '',
         ]);
     }
-    
-    //一定要的程式要說的出原因
-    // public function respondWithToken($token)
-    // {
-    // 	return response()->json([
-    // 		'access_token' => $token,
-    // 		'token_type' => 'bearer',
-    // 		'expies_in' => auth()->factory()->getTTL()*60
-    // 	]);
-    // }
 }

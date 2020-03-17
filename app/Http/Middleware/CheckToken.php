@@ -5,8 +5,9 @@ namespace App\Http\Middleware;
 use Closure;
 use JWTAuth;
 use Exception;
-//\Tymon\JWTAuth\Exceptions\TokenExpiredException
-//instanceofg3m/4使用use
+
+use \Tymon\JWTAuth\Exceptions;//放檔案的資料夾路徑
+//instanceo使用use
 
 class CheckToken
 {
@@ -19,6 +20,14 @@ class CheckToken
      */
     public function handle($request, Closure $next)
     {
+        // try{
+
+        // } catch {
+
+        // }catch {
+
+        // } 
+        // return $next($request);
 
         try {
             $user = JWTAuth::parseToken()->authenticate();//獲取Token方法
@@ -42,7 +51,8 @@ class CheckToken
                     'message' => 'Token 列入黑名單',
                     'data' => '',
                 ]);
-            } else if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException){
+            // } else if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException){
+            } else if ($e instanceof TokenInvalidException){
                 // dd($e);
                 return response()->json([
                     'success' => false,
