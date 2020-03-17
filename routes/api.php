@@ -26,8 +26,6 @@ Route::group(['middleware' => 'checktoken'], function() {
 
 	Route::post('/logout', 'AuthController@logout');
 
-	Route::post('/refresh', 'AuthController@refresh');
-
 	Route::post('/store', 'ArticleController@store');
 
 	Route::group(['middleware' => 'ChangeArticle'] ,function() {

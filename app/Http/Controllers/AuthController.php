@@ -53,10 +53,6 @@ class AuthController extends Controller
             ]);
         } else {
             $token = $this->authService->logins($request->all());
-            // $credentials = request(['email', 'password']);
-            // $credentials = $request->only(['email','password']);
-            // dd(gettype($credentials));
-
             if (! $token) {
                 return response()->json([
                     'success' => false,
@@ -77,11 +73,6 @@ class AuthController extends Controller
             'message' => '登出成功',
             'data' => '',
         ]);
-    }
-
-    public function refresh()
-    {
-    	return $this->respondWithToken(auth()->refresh());
     }
 
     public function respondWithToken($token)
