@@ -60,7 +60,11 @@ class AuthController extends Controller
                     'data' => '',
                 ]);
             } else {
-                return $this->respondWithToken($token);
+                return response()->json([
+                    'success' => true,
+                    'message' => '登入成功',
+                    'data' => $token,
+                ]);
             }
         }
     }
@@ -74,13 +78,14 @@ class AuthController extends Controller
             'data' => '',
         ]);
     }
-
-    public function respondWithToken($token)
-    {
-    	return response()->json([
-    		'access_token' => $token,
-    		'token_type' => 'bearer',
-    		'expies_in' => auth()->factory()->getTTL()*60
-    	]);
-    }
+    
+    //一定要的程式要說的出原因
+    // public function respondWithToken($token)
+    // {
+    // 	return response()->json([
+    // 		'access_token' => $token,
+    // 		'token_type' => 'bearer',
+    // 		'expies_in' => auth()->factory()->getTTL()*60
+    // 	]);
+    // }
 }

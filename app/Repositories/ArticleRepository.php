@@ -9,17 +9,11 @@ class ArticleRepository
 {
 	public function getIndex()
 	{
-		// $article = Article::all();
-		// if (is_null($article)){
-        //     return false;
-        // } else {
-	    //     return $article;
-        // }
         $index = Article::all();
         return $index;
 	}
 	
-	public function getStore(array $data)
+	public function getStore(array $data)//物件
 	{
         $store = Article::create([
             'title' => $data['title'],
@@ -31,19 +25,13 @@ class ArticleRepository
 
 	public function getShow($id)
 	{
-		$show = Article::find($id);
-		// if (is_null($article)){
-        //     return false;
-        // } else {
-        // 	$article = Article::find($id)->only(['title', 'content','author']);
-        // 	// $article = Article::find($id);
+		$show = Article::find($id);//判斷有無文章
 	    return $show;
-        // }
 	}
 	
 	public function getUpdate(array $data,$id)
 	{
-	    $update = Article::find($id)->update([
+	    $update = Article::find($id)->update([//布林
 	        'title' => $data['title'],
 	        'content' => $data['content'],
 	    ]);

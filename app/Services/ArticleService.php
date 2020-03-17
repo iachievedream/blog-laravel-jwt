@@ -30,11 +30,11 @@ class ArticleService
 	{
 		$show = $this->articleRepository->getShow($id);
         if (empty($show)) {//true之外都為顯示為true
-            return $show;
+        	// dd($show);
+            return false;
         } else {
-			$show = $show->only(['title', 'content','author']);
+			// $show = $show->only(['title', 'content','author']);
 			return $show;
-			// return $this->articleRepository->getShow($id);
         }
 	}
 
