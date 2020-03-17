@@ -67,10 +67,7 @@ class ArticleController extends Controller
     public function show($id)
     {
         $article = $this->articleService->shows($id);
-            // if (is_null($article)) {
-            // dd($article);
-            // dd(gettype($article));
-        if (empty($article)) {//true之外都為顯示為true
+        if ($article = false) {//true之外都為顯示為true
             return response()->json([
                 'success' => false,
                 'message' => '無此文章',
@@ -98,8 +95,8 @@ class ArticleController extends Controller
                 'data' => '',
             ]);
         } else {
-            $article = $this->articleService->updates($request->all(), $id);
-            if (empty($article)) {//true之外都顯示為true
+            $article = $this->articleService->updates($request->all(), $id);//布林
+            if ($article = false) {//true之外都顯示為true empty不能使用
                 return response()->json([
                     'success' => false,
                     'message' => '更新文章失敗',
@@ -117,7 +114,7 @@ class ArticleController extends Controller
 
     public function destroy($id)
     {
-        $article = $this->articleService->destroys($id);
+        $article = $this->articleService->destroys($id);//型態boolean
         if (empty($article)) {//true之外都顯示為true
             return response()->json([
                 'success' => false,

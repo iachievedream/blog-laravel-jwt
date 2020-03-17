@@ -2,7 +2,7 @@
 
 namespace App;
 
-// use Illuminate\Database\Eloquent\Model;(查用法)
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
@@ -38,7 +38,8 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
-    //一個作者有許多文章，但還是有東西搞不清楚
+    
+    //一個作者有許多文章，錯誤碼現在則是測不出來的狀況
     // public function articles()
     // {
     //     return $this->hasMany(Article::class);

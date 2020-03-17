@@ -5,6 +5,8 @@ namespace App\Http\Middleware;
 use Closure;
 use JWTAuth;
 use Exception;
+//\Tymon\JWTAuth\Exceptions\TokenExpiredException
+//instanceofg3m/4使用use
 
 class CheckToken
 {
@@ -17,22 +19,16 @@ class CheckToken
      */
     public function handle($request, Closure $next)
     {
+
         try {
             $user = JWTAuth::parseToken()->authenticate();//獲取Token方法
         } catch (Exception $e) {
-        // } catch (TokenBlacklistedException $e) {
-            dd($e);
+            //過期，無效，可以另外用，順序問題，
+            //過期(refresh在header與例外),無效
+            //不用if eles(不能抓例外)
             if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException){
-                // dd($e);
-
-                // //待了解(JWTAuth不同的套件，所以產生無法捕捉的錯誤嗎?)
-                // $token = JWTAuth::getToken();//得到現有Token
-                // $newToken = JWTAuth::refresh($token);//更新現有Token
-
-                //官網資訊(測試好像不如預測的狀況)
-                // $newToken = auth()->refresh();//未將舊的列入黑名單
                 $newToken = auth()->refresh(true, true);//將舊的列入黑名單
-
+                //request帶Token找這麼帶，直接替換，可以印出
                 return response()->json([
                     'success' => false,
                     'message' => 'Token 已過期，請更換新的Token',

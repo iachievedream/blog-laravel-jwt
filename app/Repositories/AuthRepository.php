@@ -19,15 +19,14 @@ class AuthRepository
 	
 	public function getLogin(array $data)
 	{
-		// $email = $data['email'];
-		// $password = $data['password'];
-		// $getLogins = array('email'=>$email,'password'=>$password);
-
+		// dd($data);
 		$login = array(
 			'email'=>$data['email'],
 			'password'=>$data['password']
 		);
+		// dd($login);
 		$token = auth()->attempt($login);
+		// dd($token);
 		return $token;
 	}
 }
