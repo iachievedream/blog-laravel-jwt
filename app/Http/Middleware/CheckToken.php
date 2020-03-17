@@ -21,18 +21,17 @@ class CheckToken
             $user = JWTAuth::parseToken()->authenticate();//獲取Token方法
         } catch (Exception $e) {
         // } catch (TokenBlacklistedException $e) {
-            // dd($e);
+            dd($e);
             if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException){
                 // dd($e);
 
-                //待了解(JWTAuth不同的套件，所以產生無法捕捉的錯誤嗎?)
+                // //待了解(JWTAuth不同的套件，所以產生無法捕捉的錯誤嗎?)
                 // $token = JWTAuth::getToken();//得到現有Token
-                // $token = JWTAuth::refresh($token);//更新現有Token
+                // $newToken = JWTAuth::refresh($token);//更新現有Token
 
                 //官網資訊(測試好像不如預測的狀況)
                 // $newToken = auth()->refresh();//未將舊的列入黑名單
                 $newToken = auth()->refresh(true, true);//將舊的列入黑名單
-
 
                 return response()->json([
                     'success' => false,
@@ -40,7 +39,7 @@ class CheckToken
                     'data' => $newToken,
                 ]);
             } else if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenBlacklistedException  ){
-                dd($e);
+                // dd($e);
                 //黑名單如會員登出後的token狀況，以及refresh後的狀況。
                 return response()->json([
                     'success' => false,
