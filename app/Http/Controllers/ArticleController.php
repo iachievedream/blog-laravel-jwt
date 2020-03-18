@@ -20,7 +20,6 @@ class ArticleController extends Controller
     {
         $article = $this->articleService->indexs();//物件內有空陣列
         if (empty($article->all())) {
-        // if (! ($article->all())) {
             return response()->json([
                 'success' => false,
                 'message' => '未有文章',
@@ -69,7 +68,6 @@ class ArticleController extends Controller
     {
         $article = $this->articleService->shows($id);
         if (empty($article)) {
-        // if (! $article) {//true之外都為顯示為true
             return response()->json([
                 'success' => false,
                 'message' => '無此文章',
