@@ -14,16 +14,14 @@ class AuthRepository
 			'email' => $data['email'],
 			'password' => Hash::make($data['password']),
         ]);
-		// dd($register);
-		// dd(gettype($register));//物件
+		// dd(gettype($register));//object
         return $register;
 	}
 	
 	public function getLogin(array $data)
 	{
 		$token = auth()->attempt($data);
-		// dd($token);
-		// dd(gettype($token));//字串
+		// dd($token);//string
 		return $token;
 	}
 }
