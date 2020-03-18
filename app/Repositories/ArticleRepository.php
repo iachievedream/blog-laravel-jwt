@@ -2,8 +2,8 @@
 
 namespace App\Repositories;
 
-use Illuminate\Support\Facades\Auth;
 use App\Article;
+use JWTAuth;
 
 class ArticleRepository
 {
@@ -18,7 +18,8 @@ class ArticleRepository
         $store = Article::create([
             'title' => $data['title'],
             'content' => $data['content'],
-            'author' => auth::user()->name,
+            'author' => auth()->user()->name,
+            // 'author' => auth::user()->name,
         ]);
         return $store;
 	}

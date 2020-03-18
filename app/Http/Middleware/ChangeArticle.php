@@ -22,8 +22,6 @@ class ChangeArticle
         //文章作者
         // dd(Article::find($id));//空物件，陣列(要統一 物件或是陣列，取方法的問題)
         if (empty(Article::find($id))) {
-
-
             return response()->json([
                 'success' => false,
                 'message' => '無此文章',

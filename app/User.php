@@ -38,10 +38,4 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
-    
-    //一個作者有許多文章，錯誤碼現在則是測不出來的狀況
-    // public function articles()
-    // {
-    //     return $this->hasMany(Article::class);
-    // }
 }
