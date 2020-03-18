@@ -18,7 +18,7 @@ class ArticleController extends Controller
 
     public function index()
     {
-        $article = $this->articleService->indexs();//物件內有空陣列
+        $article = $this->articleService->indexs();//object>>[]
         if (empty($article->all())) {
             return response()->json([
                 'success' => false,

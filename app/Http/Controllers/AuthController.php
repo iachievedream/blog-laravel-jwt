@@ -23,6 +23,7 @@ class AuthController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
         ]);
+        // dd($register);
         if ($register->fails()) {//boolean
             return response()->json([
                 'success' => false,
@@ -52,7 +53,7 @@ class AuthController extends Controller
                 'data' => '',
             ]);
         } else {
-            $token = $this->authService->logins($request->all());//string/fulse
+            $token = $this->authService->logins($request->all());//string/false
             if (! $token) {
                 return response()->json([
                     'success' => false,

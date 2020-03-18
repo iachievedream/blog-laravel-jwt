@@ -13,35 +13,34 @@ class ArticleRepository
         return $index;
 	}
 	
-	public function getStore(array $data)//物件
+	public function getStore(array $data)
 	{
         $store = Article::create([
             'title' => $data['title'],
             'content' => $data['content'],
             'author' => auth()->user()->name,
-            // 'author' => auth::user()->name,
         ]);
-        return $store;
+        return $store;//object
 	}
 
 	public function getShow($id)
 	{
-		$show = Article::find($id);//object or null
-	    return $show;
+		$show = Article::find($id);
+	    return $show;//object or null
 	}
 	
 	public function getUpdate(array $data,$id)
 	{
-	    $update = Article::find($id)->update([//boolean
+	    $update = Article::find($id)->update([
 	        'title' => $data['title'],
 	        'content' => $data['content'],
 	    ]);
-	    return $update;
+	    return $update;//boolean
 	}
 
 	public function getDestroy($id)
 	{
-        $destroy = Article::find($id)->delete();//boolean
-        return $destroy;
+        $destroy = Article::find($id)->delete();
+        return $destroy;//boolean
 	}
 }

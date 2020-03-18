@@ -21,18 +21,16 @@ class CheckToken
     public function handle($request, Closure $next)
     {
         try{
-            $user = JWTAuth::parseToken()->authenticate();//取得會員資料
+            $user = JWTAuth::parseToken()->authenticate();//取得會員的認證資料
         } catch (TokenExpiredException $e) {
             // dd($e);
             try{
                 $token = JWTAuth::getToken();
                 $newToken = JWTAuth::refresh($token);
-                var_dump($newToken);
+                var_dump($newToken);//新toker
                 $user = auth()->setToken($newToken)->user();
-                // var_dump($user);
-                // dd($user);
+                // var_dump($user);// dd($user);
                 $request->headers->set('Authorization', 'Bearer'.$user);
-
             } catch (Exception $e) {
                 return response()->json([
                     'success' => false,
@@ -40,13 +38,13 @@ class CheckToken
                     'data' => '',
                 ]);                
             }
-        } catch (TokenInvalidException $e){
+        } catch (TokenInvalidException $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'Token 無效',
                 'data' => '',
             ]);
-        } catch (Exception $e){
+        } catch (Exception $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'Token 錯誤',

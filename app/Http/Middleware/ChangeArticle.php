@@ -17,10 +17,8 @@ class ChangeArticle
      */
     public function handle($request, Closure $next)
     {
-        //網址回傳ID
         $id = $request->route('id');
-        //文章作者
-        // dd(Article::find($id));//空物件，陣列(要統一 物件或是陣列，取方法的問題)
+        // dd(Article::find($id));//object null
         if (empty(Article::find($id))) {
             return response()->json([
                 'success' => false,
@@ -28,8 +26,9 @@ class ChangeArticle
                 'data' => '',
             ]);
         } else {
+            //文章作者
             $article = Article::find($id);
-            $author = $article->author;//欄位
+            $author = $article->author;
             //登入使用者
             $user = Auth::user()->name;
             //管理員判斷
