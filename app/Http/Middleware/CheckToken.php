@@ -29,7 +29,6 @@ class CheckToken
                 $newToken = JWTAuth::refresh($token);
                 var_dump($newToken);//新toker
                 $user = auth()->setToken($newToken)->user();
-                // var_dump($user);// dd($user);
                 $request->headers->set('Authorization', 'Bearer'.$user);
             } catch (Exception $e) {
                 return response()->json([
