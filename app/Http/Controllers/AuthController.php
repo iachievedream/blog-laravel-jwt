@@ -16,56 +16,55 @@ class AuthController extends Controller
         $this->authService = $authService;
     }
 
-    public function register(Request $request)//object
+    public function register(Request $request)
     {
-        $register = Validator::make($request->all(), [//object
+        $register = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
         ]);
-        // dd($register);
-        if ($register->fails()) {//boolean
+        if ($register->fails()) {
             return response()->json([
                 'success' => false,
                 'message' => '註冊不合格式',
                 'data' => '',
-            ]);
+            ],400);
         } else {
-            $this->authService->registers($request->all());//object
+            $this->authService->registers($request->all());
             return response()->json([
                 'success' => true,
                 'message' => '註冊成功',
                 'data' => '',
-            ]);
+            ],200);
         }
     }
 
     public function login(Request $request)
     {
-        $credentials = Validator::make($request->all(),[
+        $login = Validator::make($request->all(),[
             'email' => 'required|string',
             'password' => 'required|string',
         ]);
-        if ($credentials->fails()) {
+        if ($login->fails()) {
             return response()->json([
                 'success' => false,
                 'message' => '登入不合格式',
                 'data' => '',
-            ]);
+            ],400);
         } else {
-            $token = $this->authService->logins($request->all());//string/false
-            if (! $token) {
+            $token = $this->authService->logins($request->all());
+            if (empty($token)) {
                 return response()->json([
                     'success' => false,
                     'message' => '登入失敗',
                     'data' => '',
-                ]);
+                ], 401);
             } else {
                 return response()->json([
                     'success' => true,
                     'message' => '登入成功',
                     'data' => $token,
-                ]);
+                ],200);
             }
         }
     }
@@ -77,6 +76,6 @@ class AuthController extends Controller
             'success' => true,
             'message' => '登出成功',
             'data' => '',
-        ]);
+        ],200);
     }
 }

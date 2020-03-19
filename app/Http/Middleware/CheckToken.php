@@ -8,6 +8,7 @@ use Exception;
 use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Exceptions\TokenInvalidException;
+use Tymon\JWTAuth\Exceptions\TokenBlacklistedException;
 
 class CheckToken
 {
@@ -29,27 +30,28 @@ class CheckToken
                 $newToken = JWTAuth::refresh($token);
                 var_dump($newToken);//新toker
                 $user = auth()->setToken($newToken)->user();
-                // var_dump($user);// dd($user);
-                $request->headers->set('Authorization', 'Bearer'.$user);
-            } catch (Exception $e) {
+                $request->headers->set('Authorization', 'Bearer' . $user);
+            } catch (TokenBlacklistedException $e) {
+                // dd($e);
                 return response()->json([
                     'success' => false,
-                    'message' => 'Token 錯誤',
+                    'message' => 'Token 為黑名單',
                     'data' => '',
-                ]);                
+                ],401);                
             }
         } catch (TokenInvalidException $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Token 無效',
+                'message' => 'Token 無效(含數字錯誤或是登出狀況)',
                 'data' => '',
-            ]);
-        } catch (Exception $e) {
+            ],401);
+        } catch (JWTException $e) {
+            // dd($e);
             return response()->json([
                 'success' => false,
-                'message' => 'Token 錯誤',
+                'message' => 'Token 無法解析(Token未填)',
                 'data' => '',
-            ]);
+            ],400);
         }
         return $next($request);
     }

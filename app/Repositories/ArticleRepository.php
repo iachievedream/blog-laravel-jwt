@@ -20,7 +20,7 @@ class ArticleRepository
             'content' => $data['content'],
             'author' => auth()->user()->name,
         ]);
-        return $store;//object
+        return $store;
 	}
 
 	public function getShow($id)
