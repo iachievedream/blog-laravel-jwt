@@ -6,7 +6,7 @@ use App\Repositories\AuthRepository;
 
 class AuthService
 {
-	protected $articleRepository;
+	protected $authRepository;
 
 	public function __construct(AuthRepository $authRepository)
 	{

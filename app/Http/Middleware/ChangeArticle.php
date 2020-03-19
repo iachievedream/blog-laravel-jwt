@@ -23,7 +23,7 @@ class ChangeArticle
                 'success' => false,
                 'message' => '無此文章',
                 'data' => '',
-            ]);
+            ],400);
         } else {
             //文章作者
             $article = Article::find($id);
@@ -39,7 +39,7 @@ class ChangeArticle
                     'success' => false,
                     'message' => '無此權限',
                     'data' => '',
-                ]);                
+                ],401);                
             }
         }
     }

@@ -17,7 +17,8 @@ class ArticleService
 	public function indexs()
 	{
 		$index = $this->articleRepository->getIndex();
-		return $index;
+        $article = $index->all();
+		return $article;
 	}
 
 	public function stores(array $data)

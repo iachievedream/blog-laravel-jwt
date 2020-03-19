@@ -18,19 +18,19 @@ class ArticleController extends Controller
 
     public function index()
     {
-        $article = $this->articleService->indexs();//object未有文章為[]
-        if (empty($article->all())) {
+        $article = $this->articleService->indexs();
+        if (empty($article)) {
             return response()->json([
                 'success' => false,
                 'message' => '未有文章',
                 'data' => '',
-            ]);
+            ],400);
         } else {
             return response()->json([
                 'success' => true,
                 'message' => '取得文章列表成功',
                 'data' => $article,
-            ]);
+            ],200);
         }
     }
 
@@ -45,7 +45,7 @@ class ArticleController extends Controller
                 'success' => false,
                 'message' => '新增文章不合格式',
                 'data' => '',
-            ]);
+            ],400);
         } else {
             $article = $this->articleService->stores($request->all());
             if (empty($article)) {
@@ -53,13 +53,13 @@ class ArticleController extends Controller
                     'success' => false,
                     'message' => '新增文章失敗',
                     'data' => '',
-                ]);
+                ],400);
             } else {
                 return response()->json([
                     'success' => true,
                     'message' => '新增文章成功',
                     'data' => $article,
-                ]);
+                ],200);
             }
         }
     }
@@ -72,17 +72,17 @@ class ArticleController extends Controller
                 'success' => false,
                 'message' => '無此文章',
                 'data' => '',
-            ]);
+            ],400);
         } else {
             return response()->json([
                 'success' => true,
                 'message' => '顯示文章成功',
                 'data' => $article,
-            ]);
+            ],200);
         }
     }
 
-    public function update(Request $request,$id)
+    public function update(Request $request, $id)
     {
         $article = Validator::make($request->all(), [
             'title' => 'required|max:25',
@@ -93,7 +93,7 @@ class ArticleController extends Controller
                 'success' => false,
                 'message' => '更新文章不合格式',
                 'data' => '',
-            ]);
+            ],400);
         } else {
             $article = $this->articleService->updates($request->all(), $id);
             if (empty($article)) {
@@ -101,13 +101,13 @@ class ArticleController extends Controller
                     'success' => false,
                     'message' => '更新文章失敗',
                     'data' => '',
-                ]);
+                ],400);
             } else {
                 return response()->json([
                     'success' => true,
                     'message' => '更新文章成功',
-                    'data' => $request->all(),
-                ]);
+                    'data' => '',
+                ],200);
             }
         }        
     }
@@ -120,13 +120,13 @@ class ArticleController extends Controller
                 'success' => false,
                 'message' => '刪除文章失敗',
                 'data' => '',
-            ]);
+            ],400);
         } else {
             return response()->json([
                 'success' => true,
                 'message' => '刪除文章成功',
                 'data' => '',
-            ]);
+            ],200);
         }
     }
 }
