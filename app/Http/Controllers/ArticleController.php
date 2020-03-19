@@ -18,7 +18,7 @@ class ArticleController extends Controller
 
     public function index()
     {
-        $article = $this->articleService->indexs();//object>>[]
+        $article = $this->articleService->indexs();//object未有文章為[]
         if (empty($article->all())) {
             return response()->json([
                 'success' => false,
@@ -95,7 +95,7 @@ class ArticleController extends Controller
                 'data' => '',
             ]);
         } else {
-            $article = $this->articleService->updates($request->all(), $id);//boolean
+            $article = $this->articleService->updates($request->all(), $id);
             if (empty($article)) {
                 return response()->json([
                     'success' => false,
@@ -114,7 +114,7 @@ class ArticleController extends Controller
 
     public function destroy($id)
     {
-        $article = $this->articleService->destroys($id);//boolean
+        $article = $this->articleService->destroys($id);
         if (empty($article)) {
             return response()->json([
                 'success' => false,

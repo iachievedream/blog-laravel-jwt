@@ -16,22 +16,21 @@ class AuthController extends Controller
         $this->authService = $authService;
     }
 
-    public function register(Request $request)//object
+    public function register(Request $request)
     {
-        $register = Validator::make($request->all(), [//object
+        $register = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
         ]);
-        // dd($register);
-        if ($register->fails()) {//boolean
+        if ($register->fails()) {
             return response()->json([
                 'success' => false,
                 'message' => '註冊不合格式',
                 'data' => '',
             ]);
         } else {
-            $this->authService->registers($request->all());//object
+            $this->authService->registers($request->all());
             return response()->json([
                 'success' => true,
                 'message' => '註冊成功',
@@ -53,8 +52,8 @@ class AuthController extends Controller
                 'data' => '',
             ]);
         } else {
-            $token = $this->authService->logins($request->all());//string/false
-            if (! $token) {
+            $token = $this->authService->logins($request->all());
+            if (empty($token)) {
                 return response()->json([
                     'success' => false,
                     'message' => '登入失敗',

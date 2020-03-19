@@ -29,11 +29,7 @@ class ArticleService
 	public function shows($id)
 	{
 		$show = $this->articleRepository->getShow($id);
-        if (empty($show)) {
-            return false;
-        } else {
-			return $show;
-        }
+		return $show;
 	}
 
 	public function updates(array $data, $id)
