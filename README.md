@@ -15,5 +15,4 @@ php artisan serve
 
 文件介紹
 
-![image](https://github.com/iachievedream/demo_code/blob/master/picture/Laravel/laravel_process_jwt.png)
-
+![image](https://github.com/iachievedream/demo_code/blob/master/picture/Laravel/laravel_process_jwt.png =200x200)
