@@ -14,25 +14,27 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/register', 'AuthController@register');
+Route::group(['middleware' => 'cors'], function () {
 
-Route::post('/login', 'AuthController@login');
+	Route::post('/register', 'AuthController@register');
 
-Route::get('/', 'ArticleController@index');
+	Route::post('/login', 'AuthController@login');
 
-Route::get('/show/{id}', 'ArticleController@show');
+	Route::get('/', 'ArticleController@index');
 
-Route::group(['middleware' => 'check.token'], function() {
+	Route::get('/show/{id}', 'ArticleController@show');
 
-	Route::post('/logout', 'AuthController@logout');
+	Route::group(['middleware' => 'check.token'], function () {
 
-	Route::post('/store', 'ArticleController@store');
+		Route::post('/logout', 'AuthController@logout');
 
-	Route::group(['middleware' => 'change.article'] ,function() {
+		Route::post('/store', 'ArticleController@store');
 
-		Route::post('/update/{id}', 'ArticleController@update');
+		Route::group(['middleware' => 'change.article'], function () {
 
-		Route::post('/destroy/{id}', 'ArticleController@destroy');
+			Route::post('/update/{id}', 'ArticleController@update');
+
+			Route::post('/destroy/{id}', 'ArticleController@destroy');
+		});
 	});
-
 });
