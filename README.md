@@ -15,3 +15,5 @@ php artisan serve
 
 文件介紹
 <img src="https://github.com/iachievedream/demo_code/blob/master/picture/Laravel/laravel_process_jwt.png" width="50%" height="50%" />
+
+[純domo影片](https://www.youtube.com/watch?v=yn9q4NXd7BM&list=PLfBT9P5LG1z8n61SkoeK5nxIdS83LwZi3&index=1)
