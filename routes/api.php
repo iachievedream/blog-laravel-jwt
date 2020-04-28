@@ -38,3 +38,7 @@ Route::group(['middleware' => 'cors'], function () {
 		});
 	});
 });
+
+Route::middleware('auth:api')->group(function () {
+    Route::apiResource('post', 'api\PostController');
+});
